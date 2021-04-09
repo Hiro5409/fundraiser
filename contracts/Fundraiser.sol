@@ -9,7 +9,6 @@ contract Fundraiser is Ownable {
     string public url;
     string public imageURL;
     string public description;
-    address payable public owner;
     address public beneficiary;
 
     constructor(
@@ -24,8 +23,11 @@ contract Fundraiser is Ownable {
         url = _url;
         imageURL = _imageURL;
         description = _description;
-        owner = _owner;
         beneficiary = _beneficiary;
-        transferOwnership(owner);
+        transferOwnership(_owner);
+    }
+
+    function setBeneficiary(address payable _beneficiary) public onlyOwner {
+        beneficiary = _beneficiary;
     }
 }
