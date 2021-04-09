@@ -7,16 +7,22 @@ contract Fundraiser {
     string public url;
     string public imageURL;
     string public description;
+    address payable public owner;
+    address public beneficiary;
 
     constructor(
         string memory _name,
         string memory _url,
         string memory _imageURL,
-        string memory _description
+        string memory _description,
+        address payable _owner,
+        address _beneficiary
     ) public {
         name = _name;
         url = _url;
         imageURL = _imageURL;
         description = _description;
+        owner = _owner;
+        beneficiary = _beneficiary;
     }
 }
