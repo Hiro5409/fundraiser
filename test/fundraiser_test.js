@@ -72,4 +72,20 @@ contract("Fundraiser", accounts => {
       }
     });
   });
+
+  describe("making donations", () => {
+    const value = web3.utils.toWei('0.0289');
+    const donor = accounts[2];
+
+    it("increases myDonationsCount", async () => {
+      const currentCount = await fundraiser.myDonationsCount({ from: donor });
+      await fundraiser.donate({ from: donor, value })
+      const newCount = await fundraiser.myDonationsCount({ from: donor });
+      assert.equal(1, newCount - currentCount, "should increment by 1")
+    });
+
+    it("includes donation in myDonations", async () => {
+
+    });
+  });
 });
