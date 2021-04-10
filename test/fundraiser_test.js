@@ -146,5 +146,19 @@ contract("Fundraiser", accounts => {
         }
       });
     });
+
+    it("transfers balance to beneficiary", async () => {
+      const currentContractBalance = await web3.eth.getBalance(fundraiser.address);
+      const currentBeneficiaryBalance = await web3.eth.getBalance(beneficiary);
+
+      await fundraiser.withdraw({ from: owner });
+
+      const newContractBalace = await web3.eth.getBalance(fundraiser.address);
+      const newBeneficiaryBalance = await web3.eth.getBalance(beneficiary);
+      const diffBeneficiaryBalance = newBeneficiaryBalance - currentBeneficiaryBalance;
+
+      assert.equal(newContractBalace, 0, "contract should have a 0 balance");
+      assert.equal(diffBeneficiaryBalance, currentContractBalance, "beneficiary should receive all the funds");
+    });
   });
 });
