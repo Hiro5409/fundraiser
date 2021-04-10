@@ -28,4 +28,18 @@ contract("FundraiserFactory: createFundraiser", accounts => {
     const diff = newCount - currentCount;
     assert.equal(diff, 1, "should increment by 1");
   });
+
+  it("emits the FundraiserCreated event", async () => {
+    const fundraiserFactory = await FundraiserFactoryContract.deployed();
+    const tx = await fundraiserFactory.createFundraiser(
+      name,
+      url,
+      imageURL,
+      description,
+      beneficiary,
+    );
+    const actual = tx.logs[0].event;
+    const expected = "FundraiserCreated";
+    assert.equal(actual, expected, "events should match");
+  });
 });
