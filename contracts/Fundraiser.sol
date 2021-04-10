@@ -2,7 +2,7 @@
 
 pragma solidity 0.6.8;
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/access/Ownable.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract Fundraiser is Ownable {
