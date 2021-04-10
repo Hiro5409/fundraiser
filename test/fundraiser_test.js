@@ -167,5 +167,30 @@ contract("Fundraiser", accounts => {
       const expectedEvent = 'Withdraw';
       assert.equal(actualEvent, expectedEvent, "events should match");
     });
+
+    describe("receive function", () => {
+      const value = web3.utils.toWei('0.0289');
+
+      it("increases the totalDonations amount", async () => {
+        const currentAmount = await fundraiser.totalDonations();
+        await web3.eth.sendTransaction({
+          from: accounts[9], to: fundraiser.address, value,
+        })
+        const newAmount = await fundraiser.totalDonations();
+        const diff = newAmount - currentAmount;
+
+        assert.equal(diff, value, "difference should match the donation value");
+      });
+
+      it("increases donationsCount", async () => {
+        const currentCount = await fundraiser.donationsCount();
+        await web3.eth.sendTransaction({
+          from: accounts[9], to: fundraiser.address, value,
+        })
+        const newCount = await fundraiser.donationsCount();
+        const diff = newCount - currentCount;
+        assert.equal(1, diff, "donationsCount should increase by 1");
+      });
+    });
   });
 });
