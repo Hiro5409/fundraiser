@@ -48,6 +48,10 @@ contract FundraiserFactory {
 
         coll = new Fundraiser[](size);
 
+        for (uint256 i = 0; i < size; i++) {
+            coll[i] = _fundraisers[offset + i];
+        }
+
         return coll;
     }
 }
