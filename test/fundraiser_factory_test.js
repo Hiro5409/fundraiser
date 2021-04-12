@@ -43,3 +43,37 @@ contract("FundraiserFactory: createFundraiser", accounts => {
     assert.equal(actual, expected, "events should match");
   });
 });
+
+contract("FundraiserFactory: fundraisers", accounts => {
+  const name = "Hiro Miya";
+  const url = "google.com";
+  const imageURL = "https://placekitten.com/600/350";
+  const description = "fuck";
+  const beneficiary = accounts[1];
+
+  const createFundraiserFactory = async (fundraisersCount) => {
+    const factory = await FundraiserFactoryContract.deployed();
+    await addFundraisers(factory, fundraisersCount);
+    return factory;
+  };
+
+  const addFundraisers = async (factory, count) => {
+    for (i = 0;i < count;i++) {
+      await factory.createFundraiser(
+        `${name} ${i}`,
+        url,
+        imageURL,
+        description,
+        beneficiary,
+      );
+    };
+  };
+
+  describe("when fundraisers collection is empty", () => {
+    it("returns an empty collection", async () => {
+      const factory = await createFundraiserFactory(0);
+      const fundraisers = await factory.fundraisers(10, 0);
+      assert.equal(fundraisers, 0, "collection should be empty");
+    });
+  });
+});
